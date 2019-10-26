@@ -825,7 +825,7 @@ BOOL isExiting = FALSE;
     UIBarButtonItem* flexibleSpaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     UIBarButtonItem* fixedSpaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    fixedSpaceButton.width = 20;
+    fixedSpaceButton.width = 10;
     
     float toolbarY = toolbarIsAtBottom ? self.view.bounds.size.height - TOOLBAR_HEIGHT : 0.0;
     CGRect toolbarFrame = CGRectMake(0.0, toolbarY, self.view.bounds.size.width, TOOLBAR_HEIGHT);
@@ -881,14 +881,24 @@ BOOL isExiting = FALSE;
     self.addressLabel.textColor = [UIColor colorWithWhite:1.000 alpha:1.000];
     self.addressLabel.userInteractionEnabled = NO;
 
-    self.forwardButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_action_next_item"] style:UIBarButtonItemStylePlain target:self action:@selector(goForward:)];
+    NSString *pictFileForward = [[NSBundle mainBundle] pathForResource:@"ic_action_next_item" ofType:@"png"];
+    UIImage *imageToDisplayForward = [UIImage imageWithContentsOfFile:pictFileForward];
+    UIImage *cImageForward  = [UIImage imageWithCGImage:imageToDisplayForward.CGImage scale:[UIScreen mainScreen].scale orientation:imageToDisplayForward.imageOrientation];
+    UIButton *cButtonForward = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cButtonForward setImage:cImageForward forState:UIControlStateNormal];
+    self.forwardButton = [[UIBarButtonItem alloc] initWithCustomView:cButtonForward];
     self.forwardButton.enabled = YES;
     self.forwardButton.imageInsets = UIEdgeInsetsZero;
     if (_browserOptions.navigationbuttoncolor != nil) { // Set button color if user sets it in options
       self.forwardButton.tintColor = [self colorFromHexString:_browserOptions.navigationbuttoncolor];
     }
 
-    self.backButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_action_previous_item"] style:UIBarButtonItemStylePlain target:self action:@selector(goBack:)];
+    NSString *pictFileBack = [[NSBundle mainBundle] pathForResource:@"ic_action_previous_item" ofType:@"png"];
+    UIImage *imageToDisplayBack = [UIImage imageWithContentsOfFile:pictFileBack];
+    UIImage *cImageBack  = [UIImage imageWithCGImage:imageToDisplayBack.CGImage scale:[UIScreen mainScreen].scale orientation:imageToDisplayBack.imageOrientation];
+    UIButton *cButtonBack = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cButtonBack setImage:cImageBack forState:UIControlStateNormal];
+    self.backButton = [[UIBarButtonItem alloc] initWithCustomView:cButtonBack];
     self.backButton.enabled = YES;
     self.backButton.imageInsets = UIEdgeInsetsZero;
     if (_browserOptions.navigationbuttoncolor != nil) { // Set button color if user sets it in options
@@ -921,7 +931,12 @@ BOOL isExiting = FALSE;
 
 - (void)setCloseButtonTitle:(NSString*)title : (NSString*) colorString : (int) buttonIndex
 {
-    self.closeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ic_action_remove"] style:UIBarButtonItemStylePlain target:self action:@selector(close)];
+    NSString *pictFile = [[NSBundle mainBundle] pathForResource:@"ic_action_remove" ofType:@"png"];
+    UIImage *imageToDisplay  = [UIImage imageWithContentsOfFile:pictFile];
+    UIImage *cImage   = [UIImage imageWithCGImage:imageToDisplay.CGImage scale:[UIScreen mainScreen].scale orientation:imageToDisplay.imageOrientation];
+    UIButton *cButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cButton setImage:cImage forState:UIControlStateNormal];
+    self.closeButton = [[UIBarButtonItem alloc] initWithCustomView:cButton];
     self.closeButton.enabled = YES;
     // If color on closebutton is requested then initialize with that that color, otherwise use initialize with default
     self.closeButton.tintColor = colorString != nil ? [self colorFromHexString:colorString] : [UIColor colorWithRed:60.0 / 255.0 green:136.0 / 255.0 blue:230.0 / 255.0 alpha:1];
