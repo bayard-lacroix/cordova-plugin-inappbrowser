@@ -825,7 +825,7 @@ BOOL isExiting = FALSE;
     UIBarButtonItem* flexibleSpaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     UIBarButtonItem* fixedSpaceButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    fixedSpaceButton.width = 10;
+    fixedSpaceButton.width = 20;
     
     float toolbarY = toolbarIsAtBottom ? self.view.bounds.size.height - TOOLBAR_HEIGHT : 0.0;
     CGRect toolbarFrame = CGRectMake(0.0, toolbarY, self.view.bounds.size.width, TOOLBAR_HEIGHT);
@@ -885,6 +885,7 @@ BOOL isExiting = FALSE;
     UIImage *imageToDisplayForward = [UIImage imageWithContentsOfFile:pictFileForward];
     UIImage *cImageForward  = [UIImage imageWithCGImage:imageToDisplayForward.CGImage scale:[UIScreen mainScreen].scale orientation:imageToDisplayForward.imageOrientation];
     UIButton *cButtonForward = [UIButton buttonWithType:UIButtonTypeCustom];
+    cButtonForward.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [cButtonForward setImage:cImageForward forState:UIControlStateNormal];
     [cButtonForward addTarget:self action:@selector(goForward:) forControlEvents:UIControlEventTouchUpInside];
     self.forwardButton = [[UIBarButtonItem alloc] initWithCustomView:cButtonForward];
@@ -898,6 +899,7 @@ BOOL isExiting = FALSE;
     UIImage *imageToDisplayBack = [UIImage imageWithContentsOfFile:pictFileBack];
     UIImage *cImageBack  = [UIImage imageWithCGImage:imageToDisplayBack.CGImage scale:[UIScreen mainScreen].scale orientation:imageToDisplayBack.imageOrientation];
     UIButton *cButtonBack = [UIButton buttonWithType:UIButtonTypeCustom];
+    cButtonBack.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [cButtonBack setImage:cImageBack forState:UIControlStateNormal];
     [cButtonBack addTarget:self action:@selector(goBack:) forControlEvents:UIControlEventTouchUpInside];
     self.backButton = [[UIBarButtonItem alloc] initWithCustomView:cButtonBack];
@@ -915,9 +917,9 @@ BOOL isExiting = FALSE;
             [self.toolbar setItems:@[self.closeButton, flexibleSpaceButton]];
         }
     } else if (_browserOptions.lefttoright) {
-        [self.toolbar setItems:@[self.backButton, fixedSpaceButton, self.forwardButton, flexibleSpaceButton, self.closeButton]];
+        [self.toolbar setItems:@[self.backButton, self.forwardButton, flexibleSpaceButton, self.closeButton]];
     } else {
-        [self.toolbar setItems:@[self.closeButton, flexibleSpaceButton, self.backButton, fixedSpaceButton, self.forwardButton]];
+        [self.toolbar setItems:@[self.closeButton, flexibleSpaceButton, self.backButton, self.forwardButton]];
     }
     
     self.view.backgroundColor = [UIColor whiteColor];
@@ -937,6 +939,7 @@ BOOL isExiting = FALSE;
     UIImage *imageToDisplay  = [UIImage imageWithContentsOfFile:pictFile];
     UIImage *cImage   = [UIImage imageWithCGImage:imageToDisplay.CGImage scale:[UIScreen mainScreen].scale orientation:imageToDisplay.imageOrientation];
     UIButton *cButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    cButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [cButton setImage:cImage forState:UIControlStateNormal];
     [cButton addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
     self.closeButton = [[UIBarButtonItem alloc] initWithCustomView:cButton];
